@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diego Antelmo Gallegos — Systems &amp; Data Science Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #101b2c;
+    --bg-alt: #16243a;
+    --bg-panel: #1b2c46;
+    --text: #edeae0;
+    --text-dim: #9fb0c3;
+    --text-faint: #6b7d92;
+    --amber: #d6a44e;
+    --teal: #5fa8a0;
+    --line: rgba(237,234,224,0.12);
+    --line-strong: rgba(237,234,224,0.22);
+    --serif: 'Newsreader', serif;
+    --sans: 'IBM Plex Sans', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  html{ scroll-padding-top: env(safe-area-inset-top, 0px); scroll-behavior: smooth; }
+  *{ box-sizing: border-box; }
+  html, body{ margin:0; padding:0; background: var(--bg); }
+  body{
+    font-family: var(--sans);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    background:
+      radial-gradient(ellipse 900px 500px at 85% -10%, rgba(95,168,160,0.10), transparent),
+      radial-gradient(ellipse 700px 500px at 0% 20%, rgba(214,164,78,0.06), transparent),
+      var(--bg);
+  }
+
+  /* language toggling */
+  html[data-lang="es"] .en{ display: none !important; }
+  html:not([data-lang="es"]) .es{ display: none !important; }
+
+  /* blueprint grid texture */
+  .grid-bg{
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      linear-gradient(rgba(237,234,224,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(237,234,224,0.035) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: linear-gradient(to bottom, black, black 60%, transparent 100%);
+  }
+
+  a{ color: var(--teal); text-decoration: none; border-bottom: 1px solid rgba(95,168,160,0.35); transition: border-color .15s ease, color .15s ease; }
+  a:hover{ border-color: var(--teal); color: #7fc0b8; }
+
+  .wrap{ max-width: 980px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+
+  header.top{
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
+    background: rgba(16,27,44,0.86); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  header.top .wrap{ display:flex; align-items:center; justify-content: space-between; padding-top: 16px; padding-bottom: 16px; gap: 16px; }
+  .brand{ font-family: var(--serif); font-style: italic; font-size: 1.05rem; color: var(--text); border: none; white-space: nowrap; }
+  .brand:hover{ color: var(--amber); border: none; }
+  .top-right{ display:flex; align-items:center; gap: 20px; }
+  nav.links{ display:flex; gap: 22px; font-size: 0.88rem; color: var(--text-dim); }
+  nav.links a{ border: none; color: var(--text-dim); }
+  nav.links a:hover{ color: var(--amber); }
+  @media (max-width: 700px){ nav.links{ display:none; } }
+
+  .lang-btn{
+    font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.04em;
+    background: transparent; border: 1px solid var(--line-strong); color: var(--text-dim);
+    padding: 7px 12px; border-radius: 3px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+    transition: border-color .15s ease, color .15s ease;
+  }
+  .lang-btn:hover{ border-color: var(--amber); color: var(--amber); }
+
+  section{ padding: 72px 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type{ border-bottom: none; }
+  .kicker{ font-size: 0.85rem; color: var(--text-faint); margin: 0 0 10px; }
+  h2.head{ font-family: var(--serif); font-weight: 500; font-size: 1.9rem; margin: 0 0 34px; color: var(--text); max-width: 24ch; }
+
+  /* HERO */
+  .hero{ padding-top: 88px; padding-bottom: 88px; border-bottom: 1px solid var(--line); }
+  .hero-grid{ display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; align-items: center; }
+  @media (max-width: 800px){ .hero-grid{ grid-template-columns: 1fr; } }
+  .eyebrow{ font-size: 0.86rem; color: var(--teal); margin: 0 0 18px; }
+  h1{ font-family: var(--serif); font-weight: 500; font-size: clamp(2.4rem, 6vw, 3.6rem); line-height: 1.08; margin: 0 0 20px; }
+  h1 em{ font-style: italic; color: var(--amber); }
+  .lede{ font-size: 1.08rem; color: var(--text-dim); max-width: 46ch; margin: 0 0 30px; }
+  .hero-meta{ display:flex; flex-wrap: wrap; gap: 10px 22px; font-size: 0.86rem; color: var(--text-faint); font-family: var(--mono); }
+  .hero-cta{ margin-top: 34px; display:flex; gap: 16px; flex-wrap: wrap; }
+  .btn{ font-family: var(--sans); font-size: 0.9rem; padding: 11px 20px; border: 1px solid var(--line-strong); border-radius: 3px; color: var(--text); background: transparent; }
+  .btn:hover{ border-color: var(--amber); color: var(--amber); }
+  .btn.primary{ background: var(--amber); color: #1a1206; border-color: var(--amber); font-weight: 600; }
+  .btn.primary:hover{ background: #e3b566; color: #1a1206; }
+
+  /* node diagram */
+  .diagram{ width: 100%; height: auto; opacity: 0; animation: rise .9s ease .15s forwards; }
+  @keyframes rise{ from{ opacity:0; transform: translateY(10px);} to{ opacity:1; transform: translateY(0);} }
+  .diagram .node-dot{ fill: var(--bg); stroke-width: 1.6; }
+  .diagram .n1{ stroke: var(--teal); }
+  .diagram .n2{ stroke: var(--amber); }
+  .diagram .n3{ stroke: var(--text-dim); }
+  .diagram .edge{ stroke: var(--line-strong); stroke-width: 1; fill: none; }
+  .diagram .lbl{ font-family: var(--mono); font-size: 10.5px; fill: var(--text-faint); }
+  .diagram .path-draw{ stroke-dasharray: 300; stroke-dashoffset: 300; animation: draw 1.6s ease .3s forwards; }
+  @keyframes draw{ to{ stroke-dashoffset: 0; } }
+  @media (prefers-reduced-motion: reduce){ .diagram, .diagram .path-draw{ animation: none; opacity:1; stroke-dashoffset:0; } }
+
+  /* ABOUT */
+  .about-text{ font-size: 1.02rem; color: var(--text-dim); max-width: 62ch; }
+  .about-text p{ margin: 0 0 16px; }
+  .about-text strong{ color: var(--text); font-weight: 600; }
+
+  /* TIMELINE (experience) */
+  .timeline{ position: relative; padding-left: 28px; border-left: 1px solid var(--line-strong); }
+  .t-item{ position: relative; padding-bottom: 40px; }
+  .t-item:last-child{ padding-bottom: 0; }
+  .t-item::before{ content:''; position:absolute; left: -33px; top: 4px; width: 9px; height: 9px; border-radius: 50%; background: var(--bg); border: 1.6px solid var(--teal); }
+  .t-date{ font-family: var(--mono); font-size: 0.78rem; color: var(--text-faint); margin-bottom: 6px; }
+  .t-role{ font-size: 1.08rem; font-weight: 600; color: var(--text); margin: 0 0 2px; }
+  .t-org{ font-size: 0.92rem; color: var(--amber); margin: 0 0 12px; }
+  .t-list{ margin: 0; padding-left: 18px; color: var(--text-dim); font-size: 0.94rem; }
+  .t-list li{ margin-bottom: 6px; }
+
+  /* PROJECTS */
+  .projects{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  @media (max-width: 700px){ .projects{ grid-template-columns: 1fr; } }
+  .proj{ background: var(--bg-alt); padding: 28px; }
+  .proj h3{ font-family: var(--serif); font-weight: 500; font-size: 1.25rem; margin: 0 0 8px; }
+  .proj .tag{ font-family: var(--mono); font-size: 0.72rem; color: var(--teal); margin-bottom: 12px; display:block; }
+  .proj p{ color: var(--text-dim); font-size: 0.92rem; margin: 0; }
+
+  /* ACHIEVEMENTS */
+  .achieve{ display:flex; flex-direction: column; }
+  .ach-row{ display:grid; grid-template-columns: 110px 1fr auto; gap: 18px; align-items: baseline; padding: 18px 0; border-top: 1px solid var(--line); }
+  .achieve .ach-row:last-child{ border-bottom: 1px solid var(--line); }
+  @media (max-width: 640px){ .ach-row{ grid-template-columns: 1fr; gap: 4px; padding: 16px 0; } }
+  .ach-date{ font-family: var(--mono); font-size: 0.78rem; color: var(--text-faint); }
+  .ach-name{ font-size: 0.98rem; color: var(--text); }
+  .ach-name span{ color: var(--text-dim); font-size: 0.88rem; display:block; margin-top: 2px; }
+  .ach-place{ font-family: var(--mono); font-size: 0.76rem; color: var(--amber); white-space: nowrap; text-align: right; }
+
+  /* CERTS + EDU */
+  .two-col{ display:grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+  @media (max-width: 760px){ .two-col{ grid-template-columns: 1fr; gap: 40px; } }
+  h3.sub{ font-family: var(--serif); font-style: italic; font-size: 1.15rem; color: var(--text-dim); margin: 0 0 20px; font-weight: 400; }
+  .cert-item{ padding: 14px 0; border-top: 1px solid var(--line); }
+  .cert-item:last-child{ border-bottom: 1px solid var(--line); }
+  .cert-item .c-name{ font-size: 0.95rem; color: var(--text); }
+  .cert-item .c-org{ font-size: 0.82rem; color: var(--text-faint); margin-top: 2px; }
+  .edu-item{ padding: 16px 0; border-top: 1px solid var(--line); }
+  .edu-item:last-child{ border-bottom: 1px solid var(--line); }
+  .edu-item .e-degree{ font-size: 0.98rem; color: var(--text); font-weight: 600; }
+  .edu-item .e-school{ font-size: 0.88rem; color: var(--amber); margin: 2px 0; }
+  .edu-item .e-detail{ font-size: 0.84rem; color: var(--text-faint); }
+  .stat-row{ display:flex; gap: 28px; margin-top: 14px; }
+  .stat{ font-family: var(--mono); }
+  .stat .num{ font-size: 1.3rem; color: var(--teal); display:block; }
+  .stat .lbl{ font-size: 0.72rem; color: var(--text-faint); }
+
+  /* SKILLS */
+  .skill-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 28px 40px; }
+  @media (max-width: 700px){ .skill-grid{ grid-template-columns: 1fr; } }
+  .skill-cat{ font-size: 0.78rem; color: var(--text-faint); margin: 0 0 10px; }
+  .skill-tags{ display:flex; flex-wrap:wrap; gap: 8px; }
+  .skill-tags span{ font-family: var(--mono); font-size: 0.78rem; color: var(--text-dim); border: 1px solid var(--line-strong); padding: 5px 10px; border-radius: 3px; }
+
+  /* FOOTER / CONTACT */
+  footer{ padding: 72px 0 48px; }
+  .contact-grid{ display:flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 30px; }
+  footer h2.head{ margin-bottom: 16px; }
+  .contact-links{ display:flex; flex-direction: column; gap: 8px; font-size: 0.98rem; }
+  .foot-note{ font-size: 0.78rem; color: var(--text-faint); margin-top: 48px; font-family: var(--mono); }
+
+  ::selection{ background: var(--amber); color: #1a1206; }
+</style>
+</head>
+<body>
+<div class="grid-bg" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap">
+    <a href="#top" class="brand">Diego Antelmo Gallegos</a>
+    <div class="top-right">
+      <nav class="links">
+        <a href="#about"><span class="en">Profile</span><span class="es">Perfil</span></a>
+        <a href="#experience"><span class="en">Experience</span><span class="es">Experiencia</span></a>
+        <a href="#projects"><span class="en">Projects</span><span class="es">Proyectos</span></a>
+        <a href="#achievements"><span class="en">Hackathons</span><span class="es">Hackathones</span></a>
+        <a href="#education"><span class="en">Education</span><span class="es">Formación</span></a>
+        <a href="#contact"><span class="en">Contact</span><span class="es">Contacto</span></a>
+      </nav>
+      <button class="lang-btn" id="langToggle" type="button" aria-pressed="false" aria-label="Switch language / Cambiar idioma">
+        <span class="en">Español</span><span class="es">English</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">
+          <span class="en">B.S. Computer Systems Engineering — Data Science Specialization</span>
+          <span class="es">Ingeniería en Sistemas Computacionales — Ciencia de Datos</span>
+        </p>
+        <h1 class="en">I build systems <em>end to end</em>, from raw data to product in production.</h1>
+        <h1 class="es">Construyo sistemas <em>de punta a punta</em>, del dato crudo al producto en producción.</h1>
+        <p class="lede en">Full-stack developer and data analyst. I design, build, and maintain mobile apps, dashboards, and data pipelines for real businesses — from a POS system for a bar to atmospheric dispersion models.</p>
+        <p class="lede es">Desarrollador full-stack y analista de datos. Diseño, construyo y mantengo aplicaciones móviles, dashboards y pipelines de datos para negocios reales — desde un POS para un bar hasta modelos de dispersión atmosférica.</p>
+        <div class="hero-meta">
+          <span>Cuernavaca, Morelos, MX</span>
+          <span>·</span>
+          <span>Brighton / Denver, CO</span>
+          <span>·</span>
+          <span class="en">U.S. Citizen</span><span class="es">Ciudadano de EE. UU.</span>
+        </div>
+        <div class="hero-cta">
+          <a class="btn primary" href="mailto:diego.gallegos@ieee.org"><span class="en">Get in touch</span><span class="es">Escríbeme</span></a>
+          <a class="btn" href="https://github.com/DiegoGAX10" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn" href="https://linkedin.com/in/diegogax10" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+      <div>
+        <svg class="diagram" viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg">
+          <path class="edge path-draw" d="M 55 71 C 55 110, 120 105, 146 133" />
+          <path class="edge path-draw" d="M 160 71 L 160 129" />
+          <path class="edge path-draw" d="M 265 71 C 265 110, 200 105, 174 133" />
+          <path class="edge path-draw" d="M 160 165 L 160 202" />
+
+          <circle class="node-dot n1" cx="55" cy="55" r="16"/>
+          <text class="lbl" x="55" y="32" text-anchor="middle">React Native</text>
+
+          <circle class="node-dot n1" cx="160" cy="55" r="16"/>
+          <text class="lbl" x="160" y="32" text-anchor="middle">Node / Express</text>
+
+          <circle class="node-dot n1" cx="265" cy="55" r="16"/>
+          <text class="lbl" x="265" y="32" text-anchor="middle">AWS</text>
+
+          <circle class="node-dot n2" cx="160" cy="147" r="18"/>
+          <text class="lbl" x="160" y="150" text-anchor="middle" style="fill: var(--amber); font-size:9.5px;">data</text>
+
+          <circle class="node-dot n3" cx="160" cy="218" r="16"/>
+          <text class="lbl en" x="160" y="248" text-anchor="middle">product in production</text>
+          <text class="lbl es" x="160" y="248" text-anchor="middle">producto en producción</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <p class="kicker"><span class="en">Profile</span><span class="es">Perfil</span></p>
+      <h2 class="head en">From a data-science transcript to systems running real businesses.</h2>
+      <h2 class="head es">De un kárdex de ciencia de datos a sistemas que corren en negocios reales.</h2>
+      <div class="about-text en">
+        <p>I'm in the final stretch of a <strong>B.S. in Computer Systems Engineering</strong>, Data Science specialization, at Tecnológico Nacional de México (TecNM), Zacatepec campus — a <strong>92.17</strong> GPA and <strong>96%</strong> of my credits completed. Before that, I earned a <strong>Technical Degree in Information Technology</strong> from UAEM, graduating with honors.</p>
+        <p>Alongside school, I work as an <strong>independent full-stack developer</strong>, building custom applications for small businesses: point-of-sale systems, hotel reservation management, and data-analysis dashboards. My usual stack pairs <strong>React Native (Expo)</strong> on the client with <strong>Node.js/Express</strong> on the backend and <strong>AWS (Lambda, DynamoDB)</strong> on the infrastructure side.</p>
+        <p>On the data side, I've applied <strong>machine learning</strong> and <strong>NLP</strong> to real-world problems: multilingual emotion classification across 16,000 survey responses, and atmospheric dispersion modeling with satellite and emissions data. I've placed or competed in four national TecNM hackathons, plus HackMTY.</p>
+        <p>I'm looking to start my career as a <strong>Data Engineer</strong>, <strong>Data Analyst</strong>, or in a closely related role. I genuinely love this work — turning messy, multi-source data into systems and insights people can rely on — and I'm eager to keep growing in it.</p>
+      </div>
+      <div class="about-text es">
+        <p>Curso el último tramo de <strong>Ingeniería en Sistemas Computacionales</strong>, especialidad en <strong>Ciencia de Datos</strong>, en el Tecnológico Nacional de México (TecNM) campus Zacatepec — <strong>92.17</strong> de promedio general y <strong>96%</strong> de avance crediticio. Antes de eso obtuve el título de <strong>Técnico en Informática</strong> por la UAEM, con mención honorífica.</p>
+        <p>En paralelo trabajo como <strong>desarrollador full-stack independiente</strong>, construyendo aplicaciones a la medida para pequeños negocios: sistemas de punto de venta, gestión de reservaciones hoteleras y dashboards de análisis de datos. Mi stack habitual combina <strong>React Native (Expo)</strong> en el cliente, <strong>Node.js/Express</strong> en el backend y <strong>AWS (Lambda, DynamoDB)</strong> en la infraestructura.</p>
+        <p>Del lado de datos, he aplicado <strong>machine learning</strong> y <strong>NLP</strong> a problemas con datos reales: clasificación emocional multilingüe sobre 16,000 encuestas, y modelado de dispersión atmosférica con datos satelitales y de emisiones. Cuatro veces finalista o ganador en hackathones nacionales del TecNM, además de HackMTY.</p>
+        <p>Busco iniciar mi carrera como <strong>Data Engineer</strong>, <strong>Data Analyst</strong> o en un rol afín. Me apasiona lo que hago — convertir datos desordenados y de múltiples fuentes en sistemas y análisis en los que la gente pueda confiar — y quiero seguir creciendo en este campo.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <p class="kicker"><span class="en">Experience</span><span class="es">Experiencia</span></p>
+      <h2 class="head en">Professional experience</h2>
+      <h2 class="head es">Trayectoria profesional</h2>
+      <div class="timeline">
+
+        <div class="t-item">
+          <div class="t-date">Aug 2025 — Jul 2026</div>
+          <div class="t-role en">Full-Stack Software Developer &amp; Systems Analyst</div>
+          <div class="t-role es">Desarrollador Full-Stack y Analista de Sistemas</div>
+          <div class="t-org en">Freelance — POS &amp; KDS Platform for Small Business Clients · Morelos, Mexico</div>
+          <div class="t-org es">Freelance — plataforma POS &amp; KDS para negocios pequeños · Morelos, México</div>
+          <ul class="t-list en">
+            <li>Architected and developed a POS and Kitchen Display System (KDS) from scratch, later adapting the platform for multiple clients by customizing workflows, features, and integrations to their specific business needs.</li>
+            <li>Gathered and analyzed functional and non-functional requirements with clients and stakeholders, translating business goals into technical solutions and mapping workflows to system capabilities.</li>
+            <li>Built and integrated backend services with Node.js, Express, and AWS (Lambda, DynamoDB), performing testing and debugging across live multi-client deployments.</li>
+          </ul>
+          <ul class="t-list es">
+            <li>Diseñé y desarrollé desde cero un sistema de punto de venta y Kitchen Display System (KDS), adaptándolo después a distintos clientes según sus flujos de trabajo.</li>
+            <li>Levanté requerimientos funcionales y no funcionales directamente con clientes, traduciendo objetivos de negocio en soluciones técnicas.</li>
+            <li>Construí e integré servicios backend con Node.js, Express y AWS (Lambda, DynamoDB), con pruebas y depuración en despliegues multi-cliente en vivo.</li>
+          </ul>
+        </div>
+
+        <div class="t-item">
+          <div class="t-date en">Feb — Aug 2023</div>
+          <div class="t-date es">Feb — Ago 2023</div>
+          <div class="t-role">File Maintenance</div>
+          <div class="t-org en">Safeway · Colorado, USA</div>
+          <div class="t-org es">Safeway · Colorado, EE. UU.</div>
+          <ul class="t-list en">
+            <li>Maintained accurate product databases, pricing, and inventory records within a fast-paced retail systems environment.</li>
+            <li>Provided technical troubleshooting support for inventory systems and handheld devices used by store personnel.</li>
+          </ul>
+          <ul class="t-list es">
+            <li>Mantuve bases de datos de productos, precios e inventario en un entorno minorista de alto ritmo.</li>
+            <li>Soporte técnico para sistemas de inventario y dispositivos portátiles del personal de tienda.</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <p class="kicker"><span class="en">Experience</span><span class="es">Experiencia</span></p>
+      <h2 class="head en">Technical experience</h2>
+      <h2 class="head es">Trayectoria tecnica</h2>
+      <div class="timeline">
+        
+   <div class="t-item">
+          <div class="t-date en">January 2026</div>
+          <div class="t-date es">Enero 2026</div>
+          <div class="t-role">Data &amp; Systems Analyst</div>
+          <div class="t-org en">AgroFarm — Road To Start Hack · Mexico City, Mexico</div>
+          <div class="t-org es">AgroFarm — Road To Start Hack · Ciudad de México</div>
+          <ul class="t-list en">
+            <li>Led a multi-source ETL pipeline in Python merging precipitation, emissions (SO2, NO3, NH3), soil, and satellite data.</li>
+            <li>Built and validated ETL pipelines in R to clean, normalize, and structure multi-source datasets, applying statistical methods for atmospheric modeling.</li>
+            <li>Implemented and validated the STILT atmospheric dispersion model, translating results into actionable insights via geospatial visualization and statistical analysis.</li>
+          </ul>
+          <ul class="t-list es">
+            <li>Lideré un pipeline ETL multi-fuente en Python, integrando datos de precipitación, emisiones (SO2, NO3, NH3), suelo y satélite.</li>
+            <li>Construí y validé pipelines en R para limpiar y estructurar datasets aplicando métodos estadísticos de modelado atmosférico.</li>
+            <li>Implementé el modelo de dispersión atmosférica STILT, traduciendo resultados en visualización geoespacial y análisis estadístico.</li>
+          </ul>
+        </div>
+
+        <div class="t-item">
+          <div class="t-date en">Jun — Jul 2025</div>
+          <div class="t-date es">Jun — Jul 2025</div>
+          <div class="t-role">Machine Learning Engineer</div>
+          <div class="t-org en">Scientific Summer (TecNM) · Acapulco, Mexico</div>
+          <div class="t-org es">Verano Científico (TecNM) · Acapulco, México</div>
+          <ul class="t-list en">
+            <li>Applied machine learning algorithms in a multilingual (English/Spanish) NLP framework using ELMo contextual embeddings to classify six emotional states based on Plutchik's Wheel of Emotions.</li>
+            <li>Processed 16,000 survey responses via statistical cross-validation: 91–95% precision per class, 96% overall accuracy.</li>
+          </ul>
+          <ul class="t-list es">
+            <li>Apliqué algoritmos de ML en un framework de NLP bilingüe (inglés/español) usando embeddings contextuales ELMo para clasificar seis estados emocionales según la Rueda de Plutchik.</li>
+            <li>Procesé 16,000 respuestas de encuesta con validación cruzada estadística: 91–95% de precisión por clase, 96% de exactitud general.</li>
+          </ul>
+        </div>
+
+        <div class="t-item">
+          <div class="t-date">Nov 2024</div>
+          <div class="t-role en">DevOps &amp; Data Engineering</div>
+          <div class="t-role es">DevOps e Ingeniería de Datos</div>
+          <div class="t-org en">Vortex — National Hackathon (TecNM) · Colima, Mexico</div>
+          <div class="t-org es">Vortex — Hackathón Nacional (TecNM) · Colima, México</div>
+          <ul class="t-list en">
+            <li>Engineered a Python-based matrix compression workflow, reducing 3D STL model size from 4.68 MB to 541 KB (88% reduction).</li>
+            <li>Led AR/VR training platform architecture for Volvo assemblies using Unity, MongoDB, and Plotly/Dash for data visualization.</li>
+          </ul>
+          <ul class="t-list es">
+            <li>Diseñé un flujo de compresión de matrices en Python que redujo un modelo 3D STL de 4.68 MB a 541 KB (88% de reducción).</li>
+            <li>Lideré la arquitectura de una plataforma AR/VR de entrenamiento para ensamblajes de Volvo con Unity, MongoDB y Plotly/Dash.</li>
+          </ul>
+        </div>
+      </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <p class="kicker"><span class="en">Projects</span><span class="es">Proyectos</span></p>
+      <h2 class="head en">Systems I've built for clients</h2>
+      <h2 class="head es">Sistemas que he construido para clientes</h2>
+      <div class="projects">
+        <div class="proj">
+          <h3>Mijacalito</h3>
+          <span class="tag">React Native · Node/Express · DynamoDB</span>
+          <p class="en">End-to-end POS system for a bar/beverage business — mobile app, backend, and database built from scratch around the client's sales flow.</p>
+          <p class="es">Sistema POS de punta a punta para un negocio de bar/bebidas — app móvil, backend y base de datos construidos desde cero para el flujo de ventas del cliente.</p>
+        </div>
+        <div class="proj">
+          <h3>Quinta El Edén</h3>
+          <span class="tag">React Native (Expo)</span>
+          <p class="en">Reservation-management app for Hotel Quinta El Edén, built to coordinate availability and bookings from mobile devices.</p>
+          <p class="es">Aplicación de gestión de reservaciones para el Hotel Quinta El Edén, pensada para coordinar disponibilidad y reservas desde dispositivos móviles.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="achievements">
+    <div class="wrap">
+      <p class="kicker"><span class="en">Hackathons</span><span class="es">Hackathones</span></p>
+      <h2 class="head en">Seven hackathon showings, in order</h2>
+      <h2 class="head es">Siete competencias de hackathon, en orden</h2>
+      <div class="achieve">
+        <div class="ach-row">
+          <div class="ach-date en">Jan 2026</div>
+          <div class="ach-date es">Ene 2026</div>
+          <div class="ach-name">
+            <span class="en">Road To Start Hack · Mexico City<span>Data &amp; Systems Analyst · AgroFarm — atmospheric dispersion modeling</span></span>
+            <span class="es">Road To Start Hack · Ciudad de México<span>Analista de Datos y Sistemas · AgroFarm — modelado de dispersión atmosférica</span></span>
+          </div>
+          <div class="ach-place"><span class="en">Participant</span><span class="es">Participación</span></div>
+        </div>
+        <div class="ach-row">
+          <div class="ach-date en">Nov 2025</div>
+          <div class="ach-date es">Nov 2025</div>
+          <div class="ach-name">
+            <span class="en">HackaTEC — Pachuca · InnovaTecNM, national stage<span>Team Exception:TeamNotFound · Emerging Technologies challenge</span></span>
+            <span class="es">HackaTEC — Pachuca · InnovaTecNM, etapa nacional<span>Equipo Exception:TeamNotFound · reto Tecnologías Emergentes</span></span>
+          </div>
+          <div class="ach-place"><span class="en">2nd place</span><span class="es">2º lugar</span></div>
+        </div>
+        <div class="ach-row">
+          <div class="ach-date">Oct 2025</div>
+          <div class="ach-name">
+            <span class="en">HackMTY 2025<span>Major League Hacking · TecACM · 36-hour hackathon</span></span>
+            <span class="es">HackMTY 2025<span>Major League Hacking · TecACM · 36 horas</span></span>
+          </div>
+          <div class="ach-place"><span class="en">Participant</span><span class="es">Participación</span></div>
+        </div>
+        <div class="ach-row">
+          <div class="ach-date en">Sep 2025</div>
+          <div class="ach-date es">Sep 2025</div>
+          <div class="ach-name">
+            <span class="en">HackaTEC — Zacatepec · InnovaTecNM, regional stage (Region 5)<span>Team Exception:TeamNotFound · Emerging Technologies challenge</span></span>
+            <span class="es">HackaTEC — Zacatepec · InnovaTecNM, etapa regional (Región 5)<span>Equipo Exception:TeamNotFound · reto Tecnologías Emergentes</span></span>
+          </div>
+          <div class="ach-place"><span class="en">1st place</span><span class="es">1er lugar</span></div>
+        </div>
+        <div class="ach-row">
+          <div class="ach-date">Nov 2024</div>
+          <div class="ach-name">
+            <span class="en">HackaTEC — Colima · InnovaTecNM, national stage<span>Team Exception:TeamNotFound · Tourism &amp; Transportation challenge · Vortex</span></span>
+            <span class="es">HackaTEC — Colima · InnovaTecNM, etapa nacional<span>Equipo Exception:TeamNotFound · reto Turismo y Transporte · Vortex</span></span>
+          </div>
+          <div class="ach-place"><span class="en">1st place</span><span class="es">1er lugar</span></div>
+        </div>
+        <div class="ach-row">
+          <div class="ach-date en">Sep 2024</div>
+          <div class="ach-date es">Sep 2024</div>
+          <div class="ach-name">
+            <span class="en">HackaTEC — Oaxaca · InnovaTecNM, regional stage (Region 5)<span>Team Exception:TeamNotFound · Tourism &amp; Transportation challenge · MOVIMX</span></span>
+            <span class="es">HackaTEC — Oaxaca · InnovaTecNM, etapa regional (Región 5)<span>Equipo Exception:TeamNotFound · reto Turismo y Transporte · MOVIMX</span></span>
+          </div>
+          <div class="ach-place"><span class="en">1st place</span><span class="es">1er lugar</span></div>
+        </div>
+        <div class="ach-row">
+          <div class="ach-date">May 2024</div>
+          <div class="ach-name">
+            <span class="en">HackaTEC — Zacatepec · InnovaTecNM, local stage<span>Team Exception:TeamNotFound · Challenge 1 — neonatal health monitoring built from a repurposed height meter, environmental sensors, and an AI-driven alert app</span></span>
+            <span class="es">HackaTEC — Zacatepec · InnovaTecNM, etapa local<span>Equipo Exception:TeamNotFound · Reto 1 — monitoreo de salud neonatal con un estadiómetro reutilizado, sensores ambientales y una app con alertas por IA</span></span>
+          </div>
+          <div class="ach-place"><span class="en">1st place — Challenge 1</span><span class="es">1er lugar — Reto 1</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="wrap">
+      <p class="kicker"><span class="en">Education &amp; certifications</span><span class="es">Formación &amp; certificaciones</span></p>
+      <h2 class="head en">Formal education and continuing learning</h2>
+      <h2 class="head es">Educación formal y aprendizaje continuo</h2>
+      <div class="two-col">
+        <div>
+          <h3 class="sub"><span class="en">Education</span><span class="es">Educación</span></h3>
+          <div class="edu-item">
+            <div class="e-degree en">B.S. in Computer Systems Engineering</div>
+            <div class="e-degree es">Ingeniería en Sistemas Computacionales</div>
+            <div class="e-school en">Tecnológico Nacional de México, Zacatepec campus</div>
+            <div class="e-school es">Tecnológico Nacional de México, campus Zacatepec</div>
+            <div class="e-detail en">Data Science specialization · Aug 2021 – Dec 2026</div>
+            <div class="e-detail es">Especialidad en Ciencia de Datos · Ago 2021 – Dic 2026</div>
+            <div class="stat-row">
+              <div class="stat"><span class="num">92.17</span><span class="lbl en">GPA</span><span class="lbl es">promedio</span></div>
+              <div class="stat"><span class="num">96%</span><span class="lbl en">credits completed</span><span class="lbl es">avance crediticio</span></div>
+              <div class="stat"><span class="num">250</span><span class="lbl en">credits approved</span><span class="lbl es">créditos aprobados</span></div>
+            </div>
+          </div>
+          <div class="edu-item">
+            <div class="e-degree en">Technical Degree in Information Technology</div>
+            <div class="e-degree es">Técnico en Informática</div>
+            <div class="e-school">Universidad Autónoma del Estado de Morelos (UAEM)</div>
+            <div class="e-detail en">Approved unanimously with honors · Aug 2017 – Jun 2020</div>
+            <div class="e-detail es">Aprobado por unanimidad con mención honorífica · Ago 2017 – Jun 2020</div>
+          </div>
+          <div class="edu-item">
+            <div class="e-degree en">Recognition — International Summer of Research in Science and Technology</div>
+            <div class="e-degree es">Reconocimiento — Verano Internacional de Investigación en Ciencia y Tecnología</div>
+            <div class="e-school">TecNM / CENIDET</div>
+            <div class="e-detail en">VIICyT Congress · Acapulco, Mexico · October 2025</div>
+            <div class="e-detail es">Congreso VIICyT · Acapulco, Gro. · Octubre 2025</div>
+          </div>
+        </div>
+        <div>
+          <h3 class="sub"><span class="en">Certifications</span><span class="es">Certificaciones</span></h3>
+          <div class="cert-item">
+            <div class="c-name">AI Fundamentals</div>
+            <div class="c-org en">Google · via Coursera</div>
+            <div class="c-org es">Google · vía Coursera</div>
+          </div>
+          <div class="cert-item">
+            <div class="c-name">AI for Data Analysis</div>
+            <div class="c-org en">Google · via Coursera</div>
+            <div class="c-org es">Google · vía Coursera</div>
+          </div>
+          <div class="cert-item">
+            <div class="c-name">SQL for Data Science</div>
+            <div class="c-org en">University of California, Davis · via Coursera</div>
+            <div class="c-org es">University of California, Davis · vía Coursera</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <p class="kicker"><span class="en">Technical skills</span><span class="es">Habilidades técnicas</span></p>
+      <h2 class="head en">Tech stack</h2>
+      <h2 class="head es">Stack de trabajo</h2>
+      <div class="skill-grid">
+        <div>
+          <p class="skill-cat"><span class="en">Languages</span><span class="es">Lenguajes</span></p>
+          <div class="skill-tags">
+            <span>Python</span><span>SQL</span><span>JavaScript</span><span>R</span>
+          </div>
+        </div>
+        <div>
+          <p class="skill-cat"><span class="en">Data &amp; analytics</span><span class="es">Datos &amp; analítica</span></p>
+          <div class="skill-tags">
+            <span>Machine Learning</span><span>ETL</span><span>Pandas</span><span>Polars</span><span>Matplotlib</span><span>Tableau</span>
+          </div>
+        </div>
+        <div>
+          <p class="skill-cat">AI / LLM</p>
+          <div class="skill-tags">
+            <span>LLM Integration (Ollama)</span><span>Prompt Engineering</span><span>TensorFlow</span>
+          </div>
+        </div>
+        <div>
+          <p class="skill-cat">Cloud</p>
+          <div class="skill-tags">
+            <span>AWS Lambda</span><span>EC2</span><span>API Gateway</span><span>CloudWatch</span><span>IAM</span><span>DynamoDB</span>
+          </div>
+        </div>
+        <div>
+          <p class="skill-cat"><span class="en">Systems &amp; testing</span><span class="es">Sistemas &amp; testing</span></p>
+          <div class="skill-tags">
+            <span>CI/CD</span><span>GitHub Actions</span><span>Docker</span><span>Linux</span><span>Bash</span>
+          </div>
+        </div>
+        <div>
+          <p class="skill-cat"><span class="en">Frameworks &amp; tools</span><span class="es">Frameworks &amp; herramientas</span></p>
+          <div class="skill-tags">
+            <span>Node.js</span><span>React Native</span><span>Git</span><span>Jupyter</span><span>Supabase</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="wrap">
+      <div class="contact-grid">
+        <div>
+          <p class="kicker"><span class="en">Contact</span><span class="es">Contacto</span></p>
+          <h2 class="head en" style="margin-bottom: 20px;">Have a project in mind? Let's talk.</h2>
+          <h2 class="head es" style="margin-bottom: 20px;">¿Un proyecto en mente? Hablemos.</h2>
+        </div>
+        <div class="contact-links">
+          <a href="mailto:diego.gallegos@ieee.org">diego.gallegos@ieee.org</a>
+          <a href="tel:+13035910873">+1 303 591 0873</a>
+          <a href="https://linkedin.com/in/diegogax10" target="_blank" rel="noopener">linkedin.com/in/diegogax10</a>
+          <a href="https://github.com/DiegoGAX10" target="_blank" rel="noopener">github.com/DiegoGAX10</a>
+        </div>
+      </div>
+      <p class="foot-note en">Cuernavaca, Morelos, Mexico — open to relocation in Brighton / Denver, Colorado. Authorized to work in the U.S. without sponsorship.</p>
+      <p class="foot-note es">Cuernavaca, Morelos, México — disponible para reubicación en Brighton / Denver, Colorado. Autorizado para trabajar en EE. UU. sin patrocinio.</p>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+  (function(){
+    var html = document.documentElement;
+    var btn = document.getElementById('langToggle');
+    btn.addEventListener('click', function(){
+      var isEs = html.getAttribute('data-lang') === 'es';
+      var next = isEs ? 'en' : 'es';
+      html.setAttribute('data-lang', next);
+      html.setAttribute('lang', next);
+      btn.setAttribute('aria-pressed', String(!isEs));
+    });
+  })();
+</script>
+</body>
+</html>
